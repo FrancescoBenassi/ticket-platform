@@ -77,4 +77,9 @@ public class Ticket {
     public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return this.id + ' ' + this.title + ' ' + this.status + ' ' + this.category + ' ' + this.notes;
+    }
 }
