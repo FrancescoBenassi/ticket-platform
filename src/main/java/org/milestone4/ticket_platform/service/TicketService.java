@@ -54,6 +54,10 @@ public class TicketService {
     // ticketRepository.delete(ticket);
     // }
 
+    public void delete(Ticket ticket){
+        ticketRepository.delete(ticket);
+    }
+
     public void deleteById(Integer id) {
         ticketRepository.deleteById(id);
     }
