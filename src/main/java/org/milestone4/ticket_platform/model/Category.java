@@ -17,7 +17,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Name cannot be blank, empty o null")
+    @NotBlank(message = "Name cannot be blank, empty or null")
     private String name;
 
     @OneToMany(mappedBy = "category")
@@ -45,5 +45,10 @@ public class Category {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }
