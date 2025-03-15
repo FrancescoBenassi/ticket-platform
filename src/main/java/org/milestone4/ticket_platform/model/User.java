@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -29,14 +30,17 @@ public class User {
     @NotBlank(message = "Password cannot be blank, empty or null")
     private String password;
 
+    @NotNull(message = "The status is available cannot be null, must be true or false")
+    private Boolean isAvailable;
+
+    @NotBlank(message = "Email cannot be blank, empty or null")
+    private String email;
+
     @OneToMany(mappedBy = "user")
-     private List<Note> notes;
+    private List<Note> notes;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "role_user", 
-    joinColumns = @JoinColumn(name="user_id"),
-    inverseJoinColumns = @JoinColumn(name="role_id")
-    )
+    @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public List<Note> getNotes() {
@@ -69,6 +73,26 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean isIsAvailable() {
+        return this.isAvailable;
+    }
+
+    public Boolean getIsAvailable() {
+        return this.isAvailable;
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Role> getRoles() {
