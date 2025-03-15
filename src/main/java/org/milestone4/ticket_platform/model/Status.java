@@ -46,4 +46,9 @@ public class Status {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+    @Override
+    public String toString() {
+        return this.status;
+    }
 }
