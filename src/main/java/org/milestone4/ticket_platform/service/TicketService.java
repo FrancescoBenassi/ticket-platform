@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.model.Ticket;
-import org.milestone4.ticket_platform.model.User;
 import org.milestone4.ticket_platform.repository.CategoryRepository;
 import org.milestone4.ticket_platform.repository.NoteRepository;
 import org.milestone4.ticket_platform.repository.StatusRepository;
