@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.milestone4.ticket_platform.model.Category;
 import org.milestone4.ticket_platform.service.CategoryService;
-import org.milestone4.ticket_platform.service.StatusService;
 import org.milestone4.ticket_platform.service.TicketService;
-import org.milestone4.ticket_platform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,21 +24,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/categories")
 public class CategoryController {
 
-
-////////// DA FINIRE /////////
-
-
     @Autowired
     private TicketService ticketService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private StatusService statusService;
 
     @GetMapping
     public String index(Model model) {
@@ -50,8 +38,8 @@ public class CategoryController {
     }
 
     @GetMapping("search")
-    public String findByKeyword(@RequestParam("name") String title, Model model) {
-        List<Category> categories = categoryService.findByTitle(title);
+    public String findByKeyword(@RequestParam("name") String name, Model model) {
+        List<Category> categories = categoryService.findByName(name);
         model.addAttribute("categories", categories);
         return "categories/index";
     }
@@ -68,7 +56,7 @@ public class CategoryController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("category", new Category());
-        model.addAttribute("users", ticketService.isAvailableTicket(ticketService.findAll()));
+        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "categories/create-or-edit";
     }
 
@@ -78,12 +66,12 @@ public class CategoryController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("create", true);
-            model.addAttribute("users", ticketService.isAvailableTicket(ticketService.findAll()));
+            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "categories/create-or-edit";
         }
 
         categoryService.create(categoryForm);
-        redirectAttributes.addFlashAttribute("message", "A new ticket has been added");
+        redirectAttributes.addFlashAttribute("message", "A new category has been added");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
         return "redirect:/categories";
     }
@@ -91,7 +79,7 @@ public class CategoryController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("category", categoryService.getById(id));
-        model.addAttribute("users", ticketService.isAvailableTicket(ticketService.findAll()));
+        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "categories/create-or-edit";
     }
 
@@ -100,12 +88,12 @@ public class CategoryController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("users", ticketService.isAvailableTicket(ticketService.findAll()));
+            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "categories/create-or-edit";
         }
 
         categoryService.update(categoryForm);
-        redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
+        redirectAttributes.addFlashAttribute("message", "A Category has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
         return "redirect:/categories";
     }
@@ -117,9 +105,9 @@ public class CategoryController {
 
         categoryService.delete(category);
 
-        redirectAttributes.addFlashAttribute("message", "A Ticket has been deleted");
+        redirectAttributes.addFlashAttribute("message", "A Category has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
-        return "redirect:/tickets";
+        return "redirect:/categories";
     }
 
 }
