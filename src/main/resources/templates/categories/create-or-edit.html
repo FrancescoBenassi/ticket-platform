@@ -15,30 +15,31 @@
     <main class="container">
         <section class="row justify-content-center">
             <div class="col-12">
-                <h1 th:if="${category}">
+                <h1 th:if="${create}">
                     Create new category:
                 </h1>
                 <h1 th:unless="${create}">
-                    Editing "[[${category.name}]]":
+                    Editing category "[[${category.name}]]":
                 </h1>
-                <form th:action="${create} ? @{/categories/create} : @{|/categories/edit/${category.id}|}" th:object="${category}"
-                    id="category-create-form" method="post">
+                <form th:action="${create} ? @{/categories/create} : @{|/categories/edit/${category.id}|}"
+                    th:object="${category}" id="category-create-form" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name: </label>
-                        <input type="text" class="form-control" id="name" th:field="*{name}"
-                            th:errorClass="is-invalid" maxlength="255" required>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid"
+                            maxlength="255" required>
                         <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="error : ${#fields.errors('name')}" th:text="${error}" />
                             </ul>
                         </div>
                     </div>
-                    <div class="mb-3" th:text="'Assign to Tickets:'" />
-                    <div class="mb-3" th:each="ticket : ${tickets}">
-                        <input th:id="'ticket-'+${ticket.id}" type="checkbox" class="form-check-input"
-                            th:field="${category.tickets}" th:value="${ticket.id}">
-                        <label th:for="'ticket'+${ticket.id}" class="form-check-label"
-                            th:text="${ticket.title}" />
+                    <div th:if="${tickets == null}">
+                        <div class="mb-3" th:text="'Assign to Tickets:'" />
+                        <div class="mb-3" th:each="ticket : ${tickets}">
+                            <input th:id="'ticket-'+${ticket.id}" type="checkbox" class="form-check-input"
+                                th:field="${category.tickets}" th:value="${ticket.id}">
+                            <label th:for="'ticket'+${ticket.id}" class="form-check-label" th:text="${ticket.title}" />
+                        </div>
                     </div>
                     <input type="submit" value="Save" class="btn btn-primary">
                 </form>
