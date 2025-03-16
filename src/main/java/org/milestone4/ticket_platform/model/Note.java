@@ -23,6 +23,7 @@ public class Note {
     private Integer id;
 
     private LocalDate dateCreate;
+    
     @NotBlank(message = "Details cannot be blank, empty or null")
     @Lob
     private String details;
