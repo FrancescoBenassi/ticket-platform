@@ -18,7 +18,7 @@ public class Status {
     private Integer id;
 
     @NotBlank(message = "Status cannot be blank, empty or null")
-    private String status;
+    private String name;
 
     @OneToMany(mappedBy = "status")
     private List<Ticket> tickets;
@@ -31,12 +31,12 @@ public class Status {
         this.id = id;
     }
 
-    public String getStatus() {
-        return this.status;
+    public String getName() {
+        return this.name;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Ticket> getTickets() {
@@ -49,6 +49,6 @@ public class Status {
 
     @Override
     public String toString() {
-        return this.status;
+        return this.name;
     }
 }
