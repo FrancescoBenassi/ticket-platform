@@ -1,6 +1,6 @@
 package org.milestone4.ticket_platform.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -22,11 +22,15 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private LocalDate dateCreate;
-    
-    @NotBlank(message = "Details cannot be blank, empty or null")
     @Lob
-    private String details;
+    private String description;
+
+    @NotBlank(message = "Title cannot be blank, empty or null")
+    private String title;
+
+    private LocalDateTime creationDate;
+
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -38,27 +42,59 @@ public class Note {
     @JsonBackReference
     private Ticket ticket;
 
-    public LocalDate getDateCreate() {
-        return this.dateCreate;
-    }
-
-    public void setDateCreate(LocalDate dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDetails() {
-        return this.details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
     public Integer getId() {
         return this.id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return this.updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Ticket getTicket() {
+        return this.ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }
