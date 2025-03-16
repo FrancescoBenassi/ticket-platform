@@ -37,19 +37,14 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user")
+     private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "user")
     private List<Note> notes;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
-    public List<Note> getNotes() {
-        return this.notes;
-    }
-
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
 
     public Integer getId() {
         return this.id;
@@ -93,6 +88,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Ticket> getTickets() {
+        return this.tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<Note> getNotes() {
+        return this.notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public Set<Role> getRoles() {
