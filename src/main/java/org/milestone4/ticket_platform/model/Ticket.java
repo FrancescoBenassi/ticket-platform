@@ -31,6 +31,11 @@ public class Ticket {
     private Status status;
 
     @ManyToOne
+     @JsonBackReference
+     @JoinColumn(name = "user_id", nullable = false)
+     private User user;
+
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     @JsonBackReference
     private Category category;
@@ -60,6 +65,14 @@ public class Ticket {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Category getCategory() {
