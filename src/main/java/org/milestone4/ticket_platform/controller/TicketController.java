@@ -1,5 +1,6 @@
 package org.milestone4.ticket_platform.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.milestone4.ticket_platform.model.Note;
@@ -23,8 +24,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/tickets")
 public class TicketController {
 
-//////// DA FINIRE //////
-
+    //////// DA FINIRE //////
 
     @Autowired
     private TicketService ticketService;
@@ -124,6 +124,16 @@ public class TicketController {
         redirectAttributes.addFlashAttribute("message", "A Ticket has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/tickets";
+    }
+
+    @GetMapping("/{id}/note")
+    public String note(@PathVariable Integer id, Model model) {
+        Note note = new Note();
+        note.setTicket(ticketService.getById(id));
+        note.setUpdatedDate(LocalDateTime.now());
+        model.addAttribute("note", note);
+        model.addAttribute("create", true);
+        return "notes/create-or-edit";
     }
 
 }
