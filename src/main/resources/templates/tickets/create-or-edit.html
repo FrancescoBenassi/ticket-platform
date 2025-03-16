@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header th:insert="fragments/navbar :: navbar">
+    </header>
+
+    <main class="container">
+        <section class="row justify-content-center">
+            <div class="col-12">
+                <h1 th:if="${create}">
+                    Create new ticket:
+                </h1>
+                <h1 th:unless="${create}">
+                    Editing "[[${ticket.title}]]":
+                </h1>
+                <form th:action="${create} ? @{/tickets/create} : @{|/tickets/edit/${ticket.id}|}" th:object="${ticket}"
+                    id="ticket-create-form" method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title: </label>
+                        <input type="text" class="form-control" id="title" th:field="*{title}"
+                            th:errorClass="is-invalid" maxlength="255" required>
+                        <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2" for="category">Category:</label>
+                        <select th:field="*{category}" id="category" class="form-select" aria-label="category"
+                            required>
+                            <option th:value="${category.id}" th:each="category : ${categories}"
+                                th:text="${category.name}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2" for="assign">Assign to:</label> <br>
+                        <select th:field="*{user}" id="category" class="form-select" aria-label="category" required>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2" for="assign">Assign Status:</label> <br>
+                        <select th:field="*{status}" id="status" class="form-select" aria-label="status" required>
+                            <option th:each="status : ${status}" th:value="${status.id}" th:text="${status.name}"></option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <footer></footer>
+
+
+    <!-- Js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- Js /-->
+</body>
+
+</html>
