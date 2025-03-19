@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header th:insert="fragments/navbar :: navbar">
+    </header>
+
+    <main class="container">
+        <section>
+            <div class="d-flex mb-3">
+                <h3 class="me-auto p-2">Status List</h3>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a class="btn btn-primary" th:href="@{/tickets/create}">Create ticket</a>
+                    <a class="btn btn-primary" th:href="@{/categories/create}">Create Category</a>
+                    <a class="btn btn-primary" th:href="@{/status/create}">Create Status</a>
+                    <a class="btn btn-primary" th:href="@{/users/create}">Create User</a>
+                </div>
+            </div>
+            <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
+            </th:block>
+        </section>
+        <section>
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th sec:authorize="hasAuthority('ADMIN')"></th>
+                        <th sec:authorize="hasAuthority('ADMIN')"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="status : ${status}" th:object="${status}">
+                        <td th:text="*{id}" />
+                        <td th:text="*{name}" />
+                        <td>
+                            <a role="button" class="btn btn-sm btn-primary"
+                                th:href="@{/status/{id}(id=${status.id})}">View</a>
+                        </td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <a role="button" class="btn btn-sm btn-success"
+                                th:href="@{/status/edit/{id}(id=${status.id})}">Edit</a>
+                        </td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                th:data-bs-target="'#delete-modal-' + *{id}">
+                                Delete
+                            </button>
+    
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting [[*{name}]]</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete [[*{name}]]?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <form th:action="@{/status/delete/{id}(id=*{id})}" method="post"
+                                                class="d-inline">
+                                                <input type="submit" value="Delete permanently"
+                                                    class="btn btn-sm btn-danger">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer></footer>
+
+
+    <!-- Js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- Js /-->
+</body>
+
+</html>
