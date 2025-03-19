@@ -1,6 +1,6 @@
 package org.milestone4.ticket_platform.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.milestone4.ticket_platform.model.Note;
@@ -128,12 +128,14 @@ public class TicketController {
 
     @GetMapping("/{id}/note")
     public String note(@PathVariable Integer id, Model model) {
+        Ticket ticket = ticketService.getById(id);
         Note note = new Note();
-        note.setTicket(ticketService.getById(id));
-        note.setUpdatedDate(LocalDateTime.now());
+        note.setTicket(ticket);
+        note.setUser(ticketService.getByUser(id));
+        note.setCreationDate(LocalDate.now());
+        note.setUpdatedDate(LocalDate.now());
         model.addAttribute("note", note);
         model.addAttribute("create", true);
         return "notes/create-or-edit";
     }
-
 }
