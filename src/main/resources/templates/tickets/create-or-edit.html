@@ -26,14 +26,14 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Title: </label>
                         <input type="text" class="form-control" id="title" th:field="*{title}"
-                            th:errorClass="is-invalid" maxlength="255" required>
+                            th:errorClass="is-invalid" maxlength="255" sec:authorize="hasAuthority('ADMIN')" required>
                         <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
                             </ul>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" sec:authorize="hasAuthority('ADMIN')">
                         <label class="mb-2" for="category">Category:</label>
                         <select th:field="*{category}" id="category" class="form-select" aria-label="category"
                             required>
@@ -41,14 +41,14 @@
                                 th:text="${category.name}"></option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="mb-2" for="assign">Assign to:</label> <br>
+                    <div class="mb-3" sec:authorize="hasAuthority('ADMIN')">
+                        <label class="mb-2" for="assign">Assign to:</label>
                         <select th:field="*{user}" id="category" class="form-select" aria-label="category" required>
                             <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="mb-2" for="assign">Assign Status:</label> <br>
+                        <label class="mb-2" for="assign">Assign Status:</label> 
                         <select th:field="*{status}" id="status" class="form-select" aria-label="status" required>
                             <option th:each="status : ${status}" th:value="${status.id}" th:text="${status.name}"></option>
                         </select>
