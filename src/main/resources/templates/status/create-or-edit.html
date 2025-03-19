@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header th:insert="fragments/navbar :: navbar">
+    </header>
+
+    <main class="container">
+        <section class="row justify-content-center">
+            <div class="col-12">
+                <h1 th:if="${create}">
+                    Create new status:
+                </h1>
+                <h1 th:unless="${create}">
+                    Editing status "[[${status.name}]]":
+                </h1>
+                <form th:action="${create} ? @{/status/create} : @{|/status/edit/${status.id}|}"
+                    th:object="${status}" id="status-create-form" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name: </label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid"
+                            maxlength="255" required>
+                        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('name')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div th:if="${tickets == null}">
+                        <div class="mb-3" th:text="'Assign to Tickets:'" />
+                        <div class="mb-3" th:each="ticket : ${tickets}">
+                            <input th:id="'ticket-'+${ticket.id}" type="checkbox" class="form-check-input"
+                                th:field="${category.tickets}" th:value="${ticket.id}">
+                            <label th:for="'ticket'+${ticket.id}" class="form-check-label" th:text="${ticket.title}" />
+                        </div>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <footer></footer>
+
+
+    <!-- Js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- Js /-->
+</body>
+
+</html>
