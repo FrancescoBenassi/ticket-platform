@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header th:insert="fragments/navbar :: navbar">
+    </header>
+
+    <main class="container">
+        <section class="row justify-content-center" th:object="${note}">
+            <div class="col-12">
+                <h1 th:if="${create}">
+                    Create new note for [[*{ticket.title}]]:
+                </h1>
+                <h1 th:unless="${create}">
+                    Editing note for [[*{ticket.title}]]:
+                </h1>
+                <form th:action="${create} ? @{/notes/create} : @{|/notes/edit/${note.id}|}"
+                    id="ticket-create-form" method="post">
+                    <input type="hidden" th:field="*{ticket}" id="ticket">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title: </label>
+                        <input type="text" class="form-control" id="title" th:field="*{title}"
+                            th:errorClass="is-invalid" maxlength="255" required>
+                        <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">User: </label>
+                        <input type="text" class="form-control" id="user" th:field="*{user}"
+                            th:errorClass="is-invalid" required>
+                        <div th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('user')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="creation-date" class="form-label">Creation date: </label>
+                        <input type="hidden" class="form-control" id="creation-date" th:field="*{creationDate}"
+                            th:errorClass="is-invalid">
+                        <div th:if="${#fields.hasErrors('creationDate')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('creationDate')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update-date" class="form-label">Update date: </label>
+                        <input type="hidden" class="form-control" id="update-date" th:field="*{updatedDate}"
+                            th:errorClass="is-invalid">
+                        <div th:if="${#fields.hasErrors('updatedDate')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('updatedDate')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description: </label>
+                        <input type="text-area" class="form-control" id="description" th:field="*{description}"
+                             required>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+
+        </section>
+    </main>
+    <footer></footer>
+
+
+    <!-- Js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- Js /-->
+</body>
+
+</html>
