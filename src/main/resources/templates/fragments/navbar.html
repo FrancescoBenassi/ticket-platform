@@ -16,7 +16,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
+                            <a class="nav-link active" th:href="@{/}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/tickets}">Tickets</a>
@@ -33,36 +33,15 @@
                             aria-label="Search" name="name">
                         <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
+                    <div class="user-info text-white">
+                        Logged User: <span sec:authentication="name" class="fw-bold me-2"></span>
+                        Roles: <span sec:authentication="principal.authorities" class="fst-italic me-2"></span>
+                        <a class="btn btn-sm btn-outline-light" href="/logout">Sign out</a>
+                    </div>
                 </div>
             </div>
         </nav>
     </th:block>
-
-    <nav class="navbar bg-primary mb-4">
-        <div class="container">
-            <h1 class="navbar-title">Milestone 4</h1>
-            <ul class="navbar-nav d-flex flex-row">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/tickets/index}">Tickets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/categories/index}">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/operators/index}">Operators</a>
-                </li>
-            </ul>
-            <form class="d-flex px-3" th:action="@{/tickets/search}" method="get" role="search">
-                <input class="form-control me-2 bg-white text-dark" type="search" placeholder="Search..."
-                    aria-label="Search" name="name">
-                <button class="btn btn-outline-light" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-
 
     <!-- Js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
