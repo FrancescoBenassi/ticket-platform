@@ -1,5 +1,6 @@
 package org.milestone4.ticket_platform.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.milestone4.ticket_platform.model.Note;
@@ -21,32 +22,30 @@ import jakarta.validation.Valid;
 @RequestMapping("/notes")
 public class NoteController {
 
-
     //////// DA FINIRE //////
 
     @Autowired
     private NoteService noteService;
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("note") Note noteForm,
-            BindingResult bindingResult, Model model,
-            RedirectAttributes redirectAttributes) {
-
+    public String store(@Valid @ModelAttribute("note") Note noteForm, BindingResult bindingResult,
+            Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("create", true);
             return "notes/create-or-edit";
         }
-        noteForm.setCreationDate(LocalDateTime.now());
-        noteForm.setUpdatedDate(LocalDateTime.now());
+
         noteService.create(noteForm);
         redirectAttributes.addFlashAttribute("message", "A new note has been created");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
-        return "redirect:/notes";
+        return "redirect:/tickets";
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("note", noteService.getById(id));
+        Note noteAttempt = noteService.getById(id);
+        noteAttempt.setUpdatedDate(LocalDate.now());
+        model.addAttribute("note", noteAttempt);
         return "notes/create-or-edit";
     }
 
@@ -60,7 +59,7 @@ public class NoteController {
         noteService.update(noteForm);
         redirectAttributes.addFlashAttribute("message", "A new note has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
-        return "redirect:/notes";
+        return "redirect:/tickets";
     }
 
     @PostMapping("/delete/{id}")
@@ -68,8 +67,7 @@ public class NoteController {
         noteService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "A note has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
-        return "redirect:/notes";
+        return "redirect:/tickets";
     }
 
 }
-
