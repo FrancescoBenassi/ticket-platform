@@ -1,6 +1,6 @@
 package org.milestone4.ticket_platform.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -28,9 +28,9 @@ public class Note {
     @NotBlank(message = "Title cannot be blank, empty or null")
     private String title;
 
-    private LocalDateTime creationDate;
+    private LocalDate creationDate;
 
-    private LocalDateTime updatedDate;
+    private LocalDate updatedDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -66,19 +66,19 @@ public class Note {
         this.title = title;
     }
 
-    public LocalDateTime getCreationDate() {
+    public LocalDate getCreationDate() {
         return this.creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
+    public LocalDate getUpdatedDate() {
         return this.updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
+    public void setUpdatedDate(LocalDate updatedDate) {
         this.updatedDate = updatedDate;
     }
 
