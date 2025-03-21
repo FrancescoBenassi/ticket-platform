@@ -1,7 +1,6 @@
 package org.milestone4.ticket_platform.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.service.*;
@@ -22,10 +21,18 @@ import jakarta.validation.Valid;
 @RequestMapping("/notes")
 public class NoteController {
 
+    private UserService userService;
+
     //////// DA FINIRE //////
 
     @Autowired
     private NoteService noteService;
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable Integer id, Model model) {
+        model.addAttribute("note", noteService.getById(id));
+        return "notes/show";
+    }
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("note") Note noteForm, BindingResult bindingResult,
@@ -55,7 +62,7 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
             return "notes/create-or-edit";
         }
-
+        noteForm.setUser(userService.getCurrentUser());
         noteService.update(noteForm);
         redirectAttributes.addFlashAttribute("message", "A new note has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
