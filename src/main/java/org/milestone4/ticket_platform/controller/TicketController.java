@@ -81,7 +81,7 @@ public class TicketController {
             model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
             return "tickets/create-or-edit";
         }
-
+        ticketForm.getUser().setIsAvailable(false);
         ticketService.create(ticketForm);
         redirectAttributes.addFlashAttribute("message", "A new ticket has been added");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
@@ -107,7 +107,7 @@ public class TicketController {
             model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
             return "tickets/create-or-edit";
         }
-
+        ticketForm.getUser().setIsAvailable(false);
         ticketService.update(ticketForm);
         redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
