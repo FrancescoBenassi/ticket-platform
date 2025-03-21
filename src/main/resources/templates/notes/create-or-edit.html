@@ -21,9 +21,12 @@
                 <h1 th:unless="${create}">
                     Editing note for [[*{ticket.title}]]:
                 </h1>
-                <form th:action="${create} ? @{/notes/create} : @{|/notes/edit/${note.id}|}"
-                    id="ticket-create-form" method="post">
+                <form th:action="${create} ? @{/notes/create} : @{|/notes/edit/${note.id}|}" id="ticket-create-form"
+                    method="post">
                     <input type="hidden" th:field="*{ticket}" id="ticket">
+                    <input type="hidden" th:field="*{creationDate}">
+                    <input type="hidden" th:field="*{updatedDate}">
+                    <input type="hidden" th:field="*{user}">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title: </label>
                         <input type="text" class="form-control" id="title" th:field="*{title}"
@@ -35,39 +38,8 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="user" class="form-label">User: </label>
-                        <input type="text" class="form-control" id="user" th:field="*{user}"
-                            th:errorClass="is-invalid" required>
-                        <div th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
-                            <ul>
-                                <li th:each="error : ${#fields.errors('user')}" th:text="${error}" />
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="creation-date" class="form-label">Creation date: </label>
-                        <input type="hidden" class="form-control" id="creation-date" th:field="*{creationDate}"
-                            th:errorClass="is-invalid">
-                        <div th:if="${#fields.hasErrors('creationDate')}" class="invalid-feedback">
-                            <ul>
-                                <li th:each="error : ${#fields.errors('creationDate')}" th:text="${error}" />
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="update-date" class="form-label">Update date: </label>
-                        <input type="hidden" class="form-control" id="update-date" th:field="*{updatedDate}"
-                            th:errorClass="is-invalid">
-                        <div th:if="${#fields.hasErrors('updatedDate')}" class="invalid-feedback">
-                            <ul>
-                                <li th:each="error : ${#fields.errors('updatedDate')}" th:text="${error}" />
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mb-3">
                         <label for="description" class="form-label">Description: </label>
-                        <input type="text-area" class="form-control" id="description" th:field="*{description}"
-                             required>
+                        <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
                     </div>
                     <input type="submit" value="Save" class="btn btn-primary">
                 </form>
