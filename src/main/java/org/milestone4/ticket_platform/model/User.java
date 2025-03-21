@@ -33,6 +33,9 @@ public class User {
     @NotNull(message = "The status is available cannot be null, must be true or false")
     private Boolean isAvailable;
 
+    @NotNull(message = "The status is available cannot be null, must be true or false")
+    private Boolean isAdmin;
+
     @NotBlank(message = "Email cannot be blank, empty or null")
     private String email;
 
@@ -81,6 +84,19 @@ public class User {
     public void setIsAvailable(Boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
+
+    public Boolean isIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public Boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
 
     public String getEmail() {
         return this.email;
