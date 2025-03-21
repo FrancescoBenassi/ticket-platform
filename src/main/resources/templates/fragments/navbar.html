@@ -16,7 +16,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/}">Home</a>
+                            <a class="nav-link" th:href="@{/}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/tickets}">Tickets</a>
@@ -27,17 +27,21 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/users}">Operators</a>
                         </li>
+                        <li class="nav-item">
+                            <form class="d-flex px-3" th:action="@{/tickets/search}" method="get" role="search">
+                                <input class="form-control me-2 bg-white text-dark" type="search"
+                                    placeholder="Search..." aria-label="Search" name="name">
+                                <button class="btn btn-outline-light" type="submit">Search</button>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <div class="user-info text-white">
+                                Logged User: <span sec:authentication="name" class="fw-bold me-2"></span>
+                                Roles: <span sec:authentication="principal.authorities" class="fst-italic me-2"></span>
+                                <a class="btn btn-sm btn-outline-light" href="/logout">Sign out</a>
+                            </div>
+                        </li>
                     </ul>
-                    <form class="d-flex px-3" th:action="@{/tickets/search}" method="get" role="search">
-                        <input class="form-control me-2 bg-white text-dark" type="search" placeholder="Search..."
-                            aria-label="Search" name="name">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
-                    </form>
-                    <div class="user-info text-white">
-                        Logged User: <span sec:authentication="name" class="fw-bold me-2"></span>
-                        Roles: <span sec:authentication="principal.authorities" class="fst-italic me-2"></span>
-                        <a class="btn btn-sm btn-outline-light" href="/logout">Sign out</a>
-                    </div>
                 </div>
             </div>
         </nav>
