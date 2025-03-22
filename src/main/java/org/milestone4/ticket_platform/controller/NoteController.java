@@ -41,7 +41,6 @@ public class NoteController {
             model.addAttribute("create", true);
             return "notes/create-or-edit";
         }
-
         noteService.create(noteForm);
         redirectAttributes.addFlashAttribute("message", "A new note has been created");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
@@ -51,7 +50,6 @@ public class NoteController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Note noteAttempt = noteService.getById(id);
-        noteAttempt.setUpdatedDate(LocalDate.now());
         model.addAttribute("note", noteAttempt);
         return "notes/create-or-edit";
     }
@@ -62,7 +60,6 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
             return "notes/create-or-edit";
         }
-        noteForm.setUser(userService.getCurrentUser());
         noteService.update(noteForm);
         redirectAttributes.addFlashAttribute("message", "A new note has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
