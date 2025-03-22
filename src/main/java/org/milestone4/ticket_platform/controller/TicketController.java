@@ -90,10 +90,17 @@ public class TicketController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
+        Ticket ticket = ticketService.getById(id);
+        model.addAttribute("ticket", ticket);
+        if (userService.getCurrentUser().isIsAdmin()) {
+            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("status", statusService.findAll());
+            model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
+        }
+        model.addAttribute("categories", ticket.getCategory());
+        model.addAttribute("users", ticket.getUser());
         model.addAttribute("ticket", ticketService.getById(id));
-        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("status", statusService.findAll());
-        model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
         return "tickets/create-or-edit";
     }
 
@@ -107,7 +114,6 @@ public class TicketController {
             model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
             return "tickets/create-or-edit";
         }
-        ticketForm.getUser().setIsAvailable(false);
         ticketService.update(ticketForm);
         redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
