@@ -1,5 +1,6 @@
 package org.milestone4.ticket_platform.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 public class NoteService {
     @Autowired
     private NoteRepository noteRepository;
+
+    @Autowired
+    private UserService userService;
 
     public List<Note> findAll() {
         return noteRepository.findAll();
@@ -34,10 +38,15 @@ public class NoteService {
     }
 
     public Note create(Note note) {
+        note.setCreationDate(LocalDate.now());
+        note.setUpdatedDate(LocalDate.now());
+        note.setUser(userService.getCurrentUser());
         return noteRepository.save(note);
     }
 
     public Note update(Note note) {
+        note.setUpdatedDate(LocalDate.now());
+        note.setUser(userService.getCurrentUser());
         return noteRepository.save(note);
     }
 
