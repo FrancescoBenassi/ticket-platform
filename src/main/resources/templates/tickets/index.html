@@ -37,6 +37,7 @@
                         <th></th>
                         <th sec:authorize="hasAuthority('ADMIN')"></th>
                         <th sec:authorize="hasAuthority('ADMIN')"></th>
+                        <th sec:authorize="hasAuthority('ADMIN')"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,10 @@
                         <td th:text="*{title}" />
                         <td th:text="*{status}" />
                         <td th:text="*{category}" />
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <a role="button" class="btn btn-sm btn-primary"
+                                th:href="@{/tickets/{id}/note(id=*{id})}">Add note</a>
+                        </td>
                         <td>
                             <a role="button" class="btn btn-sm btn-primary"
                                 th:href="@{/tickets/{id}(id=${ticket.id})}">View</a>
