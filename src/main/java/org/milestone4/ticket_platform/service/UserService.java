@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.milestone4.ticket_platform.model.Ticket;
 import org.milestone4.ticket_platform.model.User;
 import org.milestone4.ticket_platform.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserService {
     public List<User> isAvailableOperator(List<User> users) {
         List<User> userAttempt = new ArrayList<User>();
         for (User user : users) {
-                if (user.isIsAvailable() && !user.isIsAdmin()) {
+                if (!user.isIsAdmin()) {
                     userAttempt.add(user);
                 }
         }
