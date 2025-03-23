@@ -18,8 +18,6 @@ public class HomeController {
     @GetMapping
     public String index(Model model, Authentication authentication) {
             model.addAttribute("user", userService.getCurrentUser());
-            // model.addAttribute("isAvailable", userService.getCurrentUser().getIsAvailable());
-            // model.addAttribute("tickets", ticketService.getTicketsAssignedToUser(userService.getCurrentUser()));
         return "home/index";
     }
 }
