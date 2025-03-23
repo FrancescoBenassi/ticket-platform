@@ -1,15 +1,12 @@
 package org.milestone4.ticket_platform.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.milestone4.ticket_platform.model.Note;
+import org.milestone4.ticket_platform.model.Category;
 import org.milestone4.ticket_platform.model.Ticket;
-import org.milestone4.ticket_platform.repository.CategoryRepository;
-import org.milestone4.ticket_platform.repository.NoteRepository;
-import org.milestone4.ticket_platform.repository.StatusRepository;
-import org.milestone4.ticket_platform.repository.TicketRepository;
+import org.milestone4.ticket_platform.model.User;
+import org.milestone4.ticket_platform.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +16,13 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    @Autowired
-    private NoteRepository noteRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired 
-    private StatusRepository statusRepository;
-
     public List<Ticket> findByTitle(String title) {
         return ticketRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public Optional<Ticket> findTicketByCategory(Category category) {
+        Optional<Ticket> tickets = ticketRepository.findTicketByCategory(category);
+        return tickets;
     }
 
     public List<Ticket> findAll() {
@@ -48,46 +41,23 @@ public class TicketService {
         return ticketRepository.findById(id);
     }
 
-    public List<Ticket> isAvailableTicket(List<Ticket> tickets){
-        List<Ticket> ticketsAttempt= new ArrayList<Ticket>();
-        for (Ticket ticket : tickets){
-            if(!(ticket.getCategory() == null)){
-                ticketsAttempt.add(ticket);
+    public Boolean ticketCompleted(User user) {
+        for (Ticket ticket : user.getTickets()) {
+            if (!ticket.getStatus().getName().equals("Completato")) {
+                return false;
             }
         }
-        return ticketsAttempt;
+        return true;
     }
 
     public Ticket create(Ticket ticket) {
-        if (ticket.getNotes() != null && !ticket.getNotes().isEmpty()) {
-            for (Note note : ticket.getNotes()) {
-                noteRepository.save(note);
-            }
-        }
-        statusRepository.save(ticket.getStatus());
-        categoryRepository.save(ticket.getCategory());
+        ticket.getUser().setIsAvailable(false);
         return ticketRepository.save(ticket);
     }
 
     public Ticket update(Ticket ticket) {
-        if (ticket.getNotes() != null && !ticket.getNotes().isEmpty()) {
-            for (Note note : ticket.getNotes()) {
-                noteRepository.save(note);
-            }
-        }
-        statusRepository.save(ticket.getStatus());
-        categoryRepository.save(ticket.getCategory());
         return ticketRepository.save(ticket);
     }
-
-    /////// DA FINIRE ////////
-
-    // public void delete( Ticket ticket){
-    // for (Note note : ticket.getNotes()) {
-    // noteRepository.delete(note);
-    // }
-    // ticketRepository.delete(ticket);
-    // }
 
     public void delete(Ticket ticket) {
         ticketRepository.delete(ticket);
