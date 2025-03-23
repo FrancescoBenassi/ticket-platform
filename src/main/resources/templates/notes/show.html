@@ -18,16 +18,11 @@
             <ul class="mt-3 col-lg-6 mx-auto">
                 <li class="list-group-item" th:text="|Creation date: '*{creationDate}'|" />
                 <li class="list-group-item" th:text="|Updated date: '*{updatedDate}'|" />
+                <li class="list-group-item" th:text="|Note by '*{user}'|" />
                 <li class="list-group-item">
                     <p th:text="|Description: '*{description}'|" />
                 </li>
             </ul>
-            <!-- <div class="col-lg-6 mx-auto">
-                <span th:text="|Creation date: '*{creationDate}'|" />
-                <span th:text="|Updated date: '*{updatedDate}'|" />
-                <span th:text="|Note by '*{user}'|" />
-                <p th:text="*{description}" />
-            </div> -->
         </div>
     </main>
 
