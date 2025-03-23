@@ -49,7 +49,8 @@
                             <a role="button" class="btn btn-sm btn-success"
                                 th:href="@{/status/edit/{id}(id=${status.id})}">Edit</a>
                         </td>
-                        <td sec:authorize="hasAuthority('ADMIN')">
+                        <td th:unless="*{tickets.size() == 0}">Cannot be deleted, there are still tickets connected</td>
+                        <td th:if="*{tickets.size() == 0}" sec:authorize="hasAuthority('ADMIN')">
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                 th:data-bs-target="'#delete-modal-' + *{id}">
