@@ -17,7 +17,7 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Status cannot be blank, empty or null")
+    @NotBlank(message = "Name cannot be blank, empty or null")
     private String name;
 
     @OneToMany(mappedBy = "status")

@@ -30,10 +30,10 @@ public class User {
     @NotBlank(message = "Password cannot be blank, empty or null")
     private String password;
 
-    @NotNull(message = "The status is available cannot be null, must be true or false")
+    @NotNull(message = "The status 'isAvailable' cannot be null, must be true or false")
     private Boolean isAvailable;
 
-    @NotNull(message = "The status is available cannot be null, must be true or false")
+    @NotNull(message = "The status 'isAdmin' cannot be null, must be true or false")
     private Boolean isAdmin;
 
     @NotBlank(message = "Email cannot be blank, empty or null")
@@ -47,7 +47,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public Integer getId() {
         return this.id;
@@ -73,20 +73,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean isIsAvailable() {
-        return this.isAvailable;
-    }
-
     public Boolean getIsAvailable() {
         return this.isAvailable;
     }
 
     public void setIsAvailable(Boolean isAvailable) {
         this.isAvailable = isAvailable;
-    }
-
-    public Boolean isIsAdmin() {
-        return this.isAdmin;
     }
 
     public Boolean getIsAdmin() {
@@ -122,11 +114,11 @@ public class User {
         this.notes = notes;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return this.roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
