@@ -49,6 +49,16 @@ public class UserService {
         return userAttempt;
     }
 
+    public List<User> isAvailableOperator(List<User> users) {
+        List<User> userAttempt = new ArrayList<User>();
+        for (User user : users) {
+            if (user.getIsAvailable() && !user.getIsAdmin()) {
+                userAttempt.add(user);
+            }
+        }
+        return userAttempt;
+    }
+
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
