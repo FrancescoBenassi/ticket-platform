@@ -19,14 +19,13 @@
                     <h3 class="me-auto">Welcome,
                         <span sec:authentication="name"></span>
                     </h3>
-                    <!-- <form th:unless="*{isAvailable}" th:action="@{/users/updateUserStatus}" method="post">
-                        <input type="hidden" name="isAvailable" value="true" />
-                        <button class="btn btn-sm btn-success me-3" type="submit">Disponibile</button>
-                    </form> -->
-
-                    <a class="btn btn-primary" th:href="@{/users/edit}">Change Status</a>
-                    <div class="text-danger" th:if="*{isAvailable}">Non disponibile</div>
-                    <div class="text-success" th:unless="*{isAvailable}">Disponibile</div>
+                    <div th:if="*{isAdmin}">
+                        <div class="text-success">Admin</div>
+                    </div>
+                    <div th:unless="*{isAdmin}">
+                        <div class="text-success" th:if="*{isAvailable}">Available</div>
+                        <div class="text-danger" th:unless="*{isAvailable}">Not Available</div>
+                    </div>
                 </div>
                 <div sec:authorize="hasAuthority('ADMIN')">
                     <a class="btn btn-primary" th:href="@{/tickets/create}">Create ticket</a>
@@ -38,7 +37,7 @@
             <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
             </th:block>
         </section>
-        <section th:if="!*{isAdmin}">
+        <section>
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
@@ -46,7 +45,7 @@
                         <th>Title</th>
                         <th>Status </th>
                         <th>Category</th>
-                        <th></th>
+                        <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('USER')"></th>
@@ -54,16 +53,63 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="ticket : *{tickets}" th:object="${ticket}">
+                    <tr th:if="*{isAdmin}" th:each="ticket : ${tickets}" th:object="${ticket}">
+                        <td th:text="*{id}" />
+                        <td th:text="*{title}" />
+                        <td th:text="*{status}" />
+                        <td th:text="*{category}" />
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <a role="button" class="btn btn-sm btn-primary"
+                                th:href="@{/tickets/{id}/note(id=*{id})}">Add note</a>
+                        </td>
+                        <td>
+                            <a role="button" class="btn btn-sm btn-primary"
+                                th:href="@{/tickets/{id}(id=${ticket.id})}">View</a>
+                        </td>
+                        <td>
+                            <a role="button" class="btn btn-sm btn-success"
+                                th:href="@{/tickets/edit/{id}(id=${ticket.id})}">Edit</a>
+                        </td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger p-1" data-bs-toggle="modal"
+                                th:data-bs-target="'#delete-modal-' + *{id}">
+                                Delete
+                            </button>
+    
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting [[*{title}]]</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete [[*{title}]]?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <form th:action="@{/tickets/delete/{id}(id=*{id})}" method="post"
+                                                class="d-inline">
+                                                <input type="submit" value="Delete permanently"
+                                                    class="btn btn-sm btn-danger">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:unless="*{isAdmin}" th:each="ticket : *{tickets}" th:object="${ticket}">
                         <td th:text="*{id}" />
                         <td th:text="*{title}" />
                         <td th:text="*{status}" />
                         <td th:text="*{category}" />
                         <td>
-                            <a role="button" class="btn btn-sm btn-primary"
-                                th:href="@{/tickets/{id}/note(id=*{id})}">Add note</a>
-                        </td>
-                        <td sec:authorize="hasAuthority('ADMIN')">
                             <a role="button" class="btn btn-sm btn-primary"
                                 th:href="@{/tickets/{id}/note(id=*{id})}">Add note</a>
                         </td>
@@ -81,6 +127,7 @@
             </table>
         </section>
     </main>
+
 
     <footer></footer>
 

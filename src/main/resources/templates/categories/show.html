@@ -25,15 +25,16 @@
                             class="text-decoration-none" />
                     </div>
                 </div>
-                <th:block th:unless="*{tickets.size()>0}">
+                <div th:unless="*{tickets.size()>0}">
                     <p class="alert alert-info">This category has not tickets, must be added</p>
-                </th:block>
+                </div>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <div sec:authorize="hasAuthority('ADMIN')">
-                        <a role="button" class="btn btn-lg btn-success"
+                    <div>
+                        <a sec:authorize="hasAuthority('ADMIN')" role="button" class="btn btn-lg btn-success"
                             th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
+                        <a sec:authorize="hasAuthority('USER')" role="button" class="btn btn-lg btn-warning" th:href="@{/categories}">Back</a>
                     </div>
-                    <div sec:authorize="hasAuthority('ADMIN')">
+                    <div th:if="*{tickets.size() == 0}" sec:authorize="hasAuthority('ADMIN')">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="modal"
                             th:data-bs-target="'#delete-modal-' + *{id}">

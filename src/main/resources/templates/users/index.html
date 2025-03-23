@@ -16,12 +16,6 @@
         <section>
             <div class="d-flex mb-3">
                 <h3 class="me-auto p-2">User List</h3>
-                <div sec:authorize="hasAuthority('ADMIN')">
-                    <a class="btn btn-primary" th:href="@{/tickets/create}">Create ticket</a>
-                    <a class="btn btn-primary" th:href="@{/categories/create}">Create Category</a>
-                    <a class="btn btn-primary" th:href="@{/status/create}">Create Status</a>
-                    <a class="btn btn-primary" th:href="@{/users/create}">Create User</a>
-                </div>
             </div>
             <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
             </th:block>
@@ -32,6 +26,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Username</th>
+                        <th>Admin</th>
                         <th>Available </th>
                         <th>Email</th>
                         <th></th>
@@ -41,6 +36,8 @@
                     <tr th:each="user : ${users}" th:object="${user}">
                         <td th:text="*{id}" />
                         <td th:text="*{username}" />
+                        <td th:if="*{isAdmin}">Yes</td>
+                        <td th:unless="*{isAdmin}">No</td>
                         <td th:text="*{isAvailable}" />
                         <td th:text="*{email}" />
                         <td>
