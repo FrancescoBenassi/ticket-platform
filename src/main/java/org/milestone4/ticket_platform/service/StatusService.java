@@ -17,20 +17,12 @@ public class StatusService {
     return statusRepository.findAll();
   }
 
-  public List<Status> findByTitle(String name) {
-    return statusRepository.findByNameContainingIgnoreCase(name);
-  }
-
   public Status getById(Integer id) {
     Optional<Status> status = statusRepository.findById(id);
     if (status.isEmpty()) {
       throw new IllegalArgumentException("Status not found with id " + id);
     }
     return status.get();
-  }
-
-  public Optional<Status> findById(Integer id) {
-    return statusRepository.findById(id);
   }
 
   public Status create (Status status){
