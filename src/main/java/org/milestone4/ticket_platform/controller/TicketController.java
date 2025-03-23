@@ -63,7 +63,7 @@ public class TicketController {
         model.addAttribute("user", userService.getCurrentUser());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("status", statusService.findAll());
-        model.addAttribute("users", userService.isOperator(userService.findAll()));
+        model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
         return "tickets/create-or-edit";
     }
 
@@ -75,7 +75,7 @@ public class TicketController {
             model.addAttribute("create", true);
             model.addAttribute("categories", categoryService.findAll());
             model.addAttribute("status", statusService.findAll());
-            model.addAttribute("users", userService.isOperator(userService.findAll()));
+            model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
             return "tickets/create-or-edit";
         }
         ticketService.create(ticketForm);
@@ -87,7 +87,7 @@ public class TicketController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Ticket ticket = ticketService.getById(id);
-        model.addAttribute("user", userService.getCurrentUser());
+        model.addAttribute("userCurrent", userService.getCurrentUser());
         if (userService.getCurrentUser().getIsAdmin()) {
             model.addAttribute("ticket", ticket);
             model.addAttribute("categories", categoryService.findAll());
@@ -114,14 +114,14 @@ public class TicketController {
             }
             return "tickets/create-or-edit";
         }
-        User userCurrent = userService.getCurrentUser();
         ticketService.update(ticketForm);
-        if(ticketService.ticketCompleted(userCurrent)){
-            userCurrent.setIsAvailable(true);
-            userService.update(userCurrent);
+        User user = ticketForm.getUser();
+        if (ticketService.ticketCompleted(user)) {
+            user.setIsAvailable(true);
+            userService.update(user);
         } else {
-            userCurrent.setIsAvailable(false);
-            userService.update(userCurrent);
+            user.setIsAvailable(false);
+            userService.update(user);
         }
         redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
