@@ -14,13 +14,14 @@
 
     <main class="container">
         <div class="px-4 py-5 my-5 text-center" th:object="${user}">
-            <h1 class="display-5 fw-bold text-body-emphasis" th:text="*{username}" />
+            <h1 class="display-5 fw-bold text-body-emphasis" th:text="|The username is '*{username}'|" />
             <ul class="mt-3 col-lg-6 mx-auto">
                 <li class="list-group-item" th:text="'Email: ' + *{email}" />
                 <li class="list-group-item" th:text="'Roles: ' + *{roles}" />
             </ul>
             <div class="col-lg-6 mx-auto">
                     <div class="row justify-content-center">
+                        <h5 th:unless="*{isAdmin}">Tickets assigned to this operator are:</h5>
                         <table class="table mt-5 align-middle" th:if="${user.tickets.size()>0}">
                             <thead>
                                 <tr>
@@ -41,7 +42,7 @@
                         </table>
                     </div>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <a class="btn btn-danger" th:href="@{/users}">Back</a>
+                    <a class="btn btn-warning" th:href="@{/users}">Back</a>
                 </div>
             </div>
         </div>
