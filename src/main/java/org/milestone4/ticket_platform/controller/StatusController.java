@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
@@ -36,18 +35,9 @@ public class StatusController {
         return "status/index";
     }
 
-    @GetMapping("search")
-    public String findByKeyword(@RequestParam("name") String name, Model model) {
-        List<Status> status = statusService.findByTitle(name);
-        model.addAttribute("status", status);
-        return "status/index";
-    }
-
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
-        // Status status = statusService.findById(id).get();
         model.addAttribute("status", statusService.getById(id));
-        model.addAttribute("tickets", ticketService.findAll());
         return "status/show";
     }
 
@@ -55,7 +45,6 @@ public class StatusController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("status", new Status());
-        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "status/create-or-edit";
     }
 
@@ -65,7 +54,6 @@ public class StatusController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("create", true);
-            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "status/create-or-edit";
         }
 
@@ -103,7 +91,6 @@ public class StatusController {
         Status status = statusService.getById(id);
 
         statusService.delete(status);
-
         redirectAttributes.addFlashAttribute("message", "A Status has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/status";
