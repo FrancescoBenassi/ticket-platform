@@ -38,6 +38,7 @@ public class StatusController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         model.addAttribute("status", statusService.getById(id));
+        model.addAttribute("tickets", ticketService.findAll());
         return "status/show";
     }
 
