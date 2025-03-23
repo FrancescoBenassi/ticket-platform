@@ -16,14 +16,17 @@ public class SecurityConfiguration {
     @SuppressWarnings("removal")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/tickets/create", "/tickets/edit/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/categories/**").hasAuthority("ADMIN")
-                .requestMatchers("/status", "/status/**").hasAuthority("ADMIN")
-                .requestMatchers("/", "/categories/**").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers("/tickets/create", "/tickets/delete/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/tickets/create", "/status/create", "/categories/create").hasAuthority("ADMIN")
+                .requestMatchers("/status/create", "/status/edit/**", "/status/delete/**").hasAuthority("ADMIN")
+                .requestMatchers("/categories/create", "/categories/edit/**", "/categories/delete/**").hasAuthority("ADMIN")
+                .requestMatchers("/notes/delete/**").hasAuthority("ADMIN")
+                .requestMatchers("/", "/categories", "/categories/**", "/notes" , "/notes/**", "/tickets", "/tickets/**", "/status", "/status/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout()
-                .and().exceptionHandling();
+                .and().exceptionHandling()
+                .and().csrf().disable();
         return http.build();
     }
 
