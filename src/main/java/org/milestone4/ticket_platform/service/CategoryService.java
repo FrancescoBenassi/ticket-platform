@@ -29,10 +29,6 @@ public class CategoryService {
         return category.get();
     }
 
-    public Optional<Category> findById(Integer id) {
-        return categoryRepository.findById(id);
-    }
-
     public Category create(Category category) {
         return categoryRepository.save(category);
     }
@@ -41,7 +37,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-     public void delete(Category category) {
+    public void delete(Category category) {
         categoryRepository.delete(category);
     }
 
