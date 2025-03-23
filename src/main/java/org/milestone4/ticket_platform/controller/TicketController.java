@@ -119,6 +119,9 @@ public class TicketController {
         if(ticketService.ticketCompleted(userCurrent)){
             userCurrent.setIsAvailable(true);
             userService.update(userCurrent);
+        } else {
+            userCurrent.setIsAvailable(false);
+            userService.update(userCurrent);
         }
         redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
