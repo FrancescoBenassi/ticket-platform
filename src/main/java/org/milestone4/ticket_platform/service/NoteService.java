@@ -1,7 +1,6 @@
 package org.milestone4.ticket_platform.service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.milestone4.ticket_platform.model.Note;
@@ -17,24 +16,12 @@ public class NoteService {
     @Autowired
     private UserService userService;
 
-    public List<Note> findAll() {
-        return noteRepository.findAll();
-    }
-
     public Note getById(Integer id) {
         Optional<Note> note = noteRepository.findById(id);
         if (note.isEmpty()) {
             throw new IllegalArgumentException("Note not found with id " + id);
         }
         return note.get();
-    }
-
-    public List<Note> findByTitle(String title) {
-        return noteRepository.findByTitleContainingIgnoreCase(title);
-    }
-
-    public Optional<Note> findById(Integer id) {
-        return noteRepository.findById(id);
     }
 
     public Note create(Note note) {
