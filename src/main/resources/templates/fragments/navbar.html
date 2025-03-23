@@ -28,6 +28,9 @@
                             <a class="nav-link" th:href="@{/users}">Operators</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" th:href="@{/status}">Status</a>
+                        </li>
+                        <li class="nav-item">
                             <form class="d-flex px-3" th:action="@{/tickets/search}" method="get" role="search">
                                 <input class="form-control me-2 bg-white text-dark" type="search"
                                     placeholder="Search tickets" aria-label="Search" name="name">
