@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.milestone4.ticket_platform.model.Category;
+import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.model.Ticket;
 import org.milestone4.ticket_platform.model.User;
 import org.milestone4.ticket_platform.repository.*;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TicketService {
+
+    @Autowired
+    private NoteRepository noteRepository;
 
     @Autowired
     private TicketRepository ticketRepository;
@@ -60,6 +64,10 @@ public class TicketService {
     }
 
     public void delete(Ticket ticket) {
+        for (Note note : ticket.getNotes()) {
+            noteRepository.delete(note);
+        }
+
         ticketRepository.delete(ticket);
     }
 
