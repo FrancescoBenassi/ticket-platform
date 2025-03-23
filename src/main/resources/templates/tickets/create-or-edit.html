@@ -21,42 +21,44 @@
                 <h1 th:unless="${create}">
                     Editing "[[${ticket.title}]]":
                 </h1>
-                <form th:action="${create} ? @{/tickets/create} : @{|/tickets/edit/${ticket.id}|}" th:object="${ticket}"
-                    id="ticket-create-form" method="post">
-                    <div class="mb-3">
+                <form th:action="${create} ? @{/tickets/create} : @{|/tickets/edit/${ticket.id}|}"
+                    th:object="${ticket}" id="ticket-create-form" method="post">
+                    <div class="mb-3" th:if="${user.isAdmin}">
                         <label for="title" class="form-label">Title: </label>
                         <input type="text" class="form-control" id="title" th:field="*{title}"
-                            th:errorClass="is-invalid" maxlength="255" sec:authorize="hasAuthority('ADMIN')" required>
+                            th:errorClass="is-invalid" maxlength="255" required>
                         <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
                             </ul>
                         </div>
                     </div>
-                    <div class="mb-3" sec:authorize="hasAuthority('ADMIN')">
+                    <div th:unless="${user.isAdmin}" class="mb-3" sec:authorize="hasAuthority('USER')">
+                        <input type="hidden" th:field="*{title}">
+                    </div>
+                    <div class="mb-3" sec:authorize="hasAuthority('USER')">
                         <label class="mb-2" for="category">Category:</label>
-                        <select th:field="*{category}" id="category" class="form-select" aria-label="category"
-                            required>
+                        <select th:field="*{category}" id="category" class="form-select" aria-label="category" required>
                             <option th:value="${category.id}" th:each="category : ${categories}"
                                 th:text="${category.name}"></option>
                         </select>
                     </div>
-                    <div class="mb-3" sec:authorize="hasAuthority('ADMIN')">
+                    <div class="mb-3" sec:authorize="hasAuthority('USER')">
                         <label class="mb-2" for="assign">Assign to:</label>
-                        <select th:field="*{user}" id="category" class="form-select" aria-label="category" required>
+                        <select th:field="*{user}" id="category" class="form-select" aria-label="category">
                             <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="mb-2" for="assign">Assign Status:</label> 
+                        <label class="mb-2" for="assign">Assign Status:</label>
                         <select th:field="*{status}" id="status" class="form-select" aria-label="status" required>
-                            <option th:each="status : ${status}" th:value="${status.id}" th:text="${status.name}"></option>
+                            <option th:each="status : ${status}" th:value="${status.id}" th:text="${status.name}">
+                            </option>
                         </select>
                     </div>
                     <input type="submit" value="Save" class="btn btn-primary">
                 </form>
             </div>
-
         </section>
     </main>
 

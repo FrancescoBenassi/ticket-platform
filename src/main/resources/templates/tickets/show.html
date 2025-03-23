@@ -38,6 +38,7 @@
                         <th>Update Date</th>
                         <th>Note by</th>
                         <th sec:authorize="hasAuthority('USERS')"></th>
+                        <th sec:authorize="hasAuthority('USERS')"></th>
                         <th sec:authorize="hasAuthority('ADMIN')"></th>
                     </tr>
                 </thead>
@@ -48,6 +49,10 @@
                         <td th:text="*{creationDate}" />
                         <td th:text="*{updatedDate}" />
                         <td th:text="*{user}" />
+                        <td>
+                            <a role="button" class="btn btn-sm btn-primary"
+                                th:href="@{/notes/{id}(id=${note.id})}">View</a>
+                        </td>
                         <td sec:authorize="hasAuthority('ADMIN')">
                             <a role="button" class="btn btn-sm btn-success"
                                 th:href="@{/notes/edit/{id}(id=${note.id})}">Edit</a>
