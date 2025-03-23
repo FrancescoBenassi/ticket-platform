@@ -33,14 +33,6 @@
                             </ul>
                         </div>
                     </div>
-                    <div th:if="${tickets == null}">
-                        <div class="mb-3" th:text="'Assign to Tickets:'" />
-                        <div class="mb-3" th:each="ticket : ${tickets}">
-                            <input th:id="'ticket-'+${ticket.id}" type="checkbox" class="form-check-input"
-                                th:field="${category.tickets}" th:value="${ticket.id}">
-                            <label th:for="'ticket'+${ticket.id}" class="form-check-label" th:text="${ticket.title}" />
-                        </div>
-                    </div>
                     <input type="submit" value="Save" class="btn btn-primary">
                 </form>
             </div>
