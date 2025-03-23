@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
@@ -37,16 +36,8 @@ public class CategoryController {
         return "categories/index";
     }
 
-    @GetMapping("search")
-    public String findByKeyword(@RequestParam("name") String name, Model model) {
-        List<Category> categories = categoryService.findByName(name);
-        model.addAttribute("categories", categories);
-        return "categories/index";
-    }
-
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
-        // Ticket ticket = ticketService.findById(id).get();
         model.addAttribute("category", categoryService.getById(id));
         model.addAttribute("tickets", ticketService.findAll());
         return "categories/show";
@@ -56,7 +47,6 @@ public class CategoryController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("category", new Category());
-        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "categories/create-or-edit";
     }
 
@@ -66,7 +56,6 @@ public class CategoryController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("create", true);
-            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "categories/create-or-edit";
         }
 
@@ -79,7 +68,6 @@ public class CategoryController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("category", categoryService.getById(id));
-        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "categories/create-or-edit";
     }
 
@@ -88,7 +76,6 @@ public class CategoryController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "categories/create-or-edit";
         }
 
