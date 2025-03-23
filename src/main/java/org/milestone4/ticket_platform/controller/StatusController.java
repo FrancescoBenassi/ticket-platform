@@ -66,7 +66,6 @@ public class StatusController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("status", statusService.getById(id));
-        model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
         return "status/create-or-edit";
     }
 
@@ -75,7 +74,6 @@ public class StatusController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("tickets", ticketService.isAvailableTicket(ticketService.findAll()));
             return "status/create-or-edit";
         }
 
