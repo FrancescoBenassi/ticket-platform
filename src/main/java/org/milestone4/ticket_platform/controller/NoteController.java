@@ -1,7 +1,5 @@
 package org.milestone4.ticket_platform.controller;
 
-import java.time.LocalDate;
-
 import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +18,6 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/notes")
 public class NoteController {
-
-    private UserService userService;
-
-    //////// DA FINIRE //////
 
     @Autowired
     private NoteService noteService;
@@ -49,8 +43,7 @@ public class NoteController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        Note noteAttempt = noteService.getById(id);
-        model.addAttribute("note", noteAttempt);
+        model.addAttribute("note", noteService.getById(id));
         return "notes/create-or-edit";
     }
 
