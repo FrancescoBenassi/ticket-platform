@@ -1,10 +1,10 @@
 package org.milestone4.ticket_platform.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.model.Ticket;
+import org.milestone4.ticket_platform.model.User;
 import org.milestone4.ticket_platform.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +23,6 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/tickets")
 public class TicketController {
-
-    //////// DA FINIRE //////
 
     @Autowired
     private TicketService ticketService;
@@ -54,7 +52,6 @@ public class TicketController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
-        // Ticket ticket = ticketService.findById(id).get();
         model.addAttribute("ticket", ticketService.getById(id));
         return "tickets/show";
     }
@@ -63,10 +60,10 @@ public class TicketController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("ticket", new Ticket());
-        model.addAttribute("notes", new Note());
+        model.addAttribute("user", userService.getCurrentUser());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("status", statusService.findAll());
-        model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
+        model.addAttribute("users", userService.isOperator(userService.findAll()));
         return "tickets/create-or-edit";
     }
 
@@ -78,10 +75,9 @@ public class TicketController {
             model.addAttribute("create", true);
             model.addAttribute("categories", categoryService.findAll());
             model.addAttribute("status", statusService.findAll());
-            model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
+            model.addAttribute("users", userService.isOperator(userService.findAll()));
             return "tickets/create-or-edit";
         }
-        ticketForm.getUser().setIsAvailable(false);
         ticketService.create(ticketForm);
         redirectAttributes.addFlashAttribute("message", "A new ticket has been added");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
@@ -91,16 +87,18 @@ public class TicketController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Ticket ticket = ticketService.getById(id);
-        model.addAttribute("ticket", ticket);
-        if (userService.getCurrentUser().isIsAdmin()) {
+        model.addAttribute("user", userService.getCurrentUser());
+        if (userService.getCurrentUser().getIsAdmin()) {
+            model.addAttribute("ticket", ticket);
             model.addAttribute("categories", categoryService.findAll());
             model.addAttribute("status", statusService.findAll());
-            model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
+            model.addAttribute("users", userService.isOperator(userService.findAll()));
+        } else {
+            model.addAttribute("categories", ticket.getCategory());
+            model.addAttribute("users", ticket.getUser());
+            model.addAttribute("ticket", ticketService.getById(id));
+            model.addAttribute("status", statusService.findAll());
         }
-        model.addAttribute("categories", ticket.getCategory());
-        model.addAttribute("users", ticket.getUser());
-        model.addAttribute("ticket", ticketService.getById(id));
-        model.addAttribute("status", statusService.findAll());
         return "tickets/create-or-edit";
     }
 
@@ -109,12 +107,19 @@ public class TicketController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", categoryService.findAll());
-            model.addAttribute("status", statusService.findAll());
-            model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
+            if (userService.getCurrentUser().getIsAdmin()) {
+                model.addAttribute("categories", categoryService.findAll());
+                model.addAttribute("status", statusService.findAll());
+                model.addAttribute("users", userService.isOperator(userService.findAll()));
+            }
             return "tickets/create-or-edit";
         }
+        User userCurrent = userService.getCurrentUser();
         ticketService.update(ticketForm);
+        if(ticketService.ticketCompleted(userCurrent)){
+            userCurrent.setIsAvailable(true);
+            userService.update(userCurrent);
+        }
         redirectAttributes.addFlashAttribute("message", "A Ticket has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
         return "redirect:/tickets";
@@ -126,7 +131,6 @@ public class TicketController {
         Ticket ticket = ticketService.getById(id);
 
         ticketService.delete(ticket);
-
         redirectAttributes.addFlashAttribute("message", "A Ticket has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/tickets";
@@ -137,9 +141,6 @@ public class TicketController {
         Ticket ticket = ticketService.getById(id);
         Note note = new Note();
         note.setTicket(ticket);
-        note.setUser(ticketService.getByUser(id));
-        note.setCreationDate(LocalDate.now());
-        note.setUpdatedDate(LocalDate.now());
         model.addAttribute("note", note);
         model.addAttribute("create", true);
         return "notes/create-or-edit";
