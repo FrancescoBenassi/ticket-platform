@@ -1,7 +1,6 @@
 package org.milestone4.ticket_platform.model;
 
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
