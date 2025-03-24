@@ -13,6 +13,9 @@
         <nav class="navbar navbar-expand-lg bg-primary mb-4">
             <div class="container">
                 <h1 class="navbar-title me-3 fs-2 text">Milestone 4</h1>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
@@ -30,7 +33,7 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/status}">Status</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item my-3 my-lg-0">
                             <form class="d-flex px-3" th:action="@{/tickets/search}" method="get" role="search">
                                 <input class="form-control me-2 bg-white text-dark" type="search"
                                     placeholder="Search tickets" aria-label="Search" name="name">
