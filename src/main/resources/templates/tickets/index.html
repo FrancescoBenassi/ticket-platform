@@ -26,8 +26,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Title</th>
-                        <th>Status </th>
-                        <th>Category</th>
+                        <th class="d-none d-md-table-cell">Status </th>
+                        <th class="d-none d-md-table-cell">Category</th>
                         <th sec:authorize="hasAuthority('USER')">Assigned to</th>
                         <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('ADMIN')"></th>
@@ -39,8 +39,8 @@
                     <tr th:each="ticket : ${tickets}" th:object="${ticket}">
                         <td th:text="*{id}" />
                         <td th:text="*{title}" />
-                        <td th:text="*{status}" />
-                        <td th:text="*{category}" />
+                        <td class="d-none d-md-table-cell" th:text="*{status}" />
+                        <td class="d-none d-md-table-cell" th:text="*{category}" />
                         <td th:text="*{user}" />
                         <td sec:authorize="hasAuthority('ADMIN')">
                             <a role="button" class="btn btn-sm btn-primary"

@@ -14,7 +14,7 @@
     <main class="container" th:object="${user}">
         <section sec:authorize="hasAuthority('USER')">
             <div class="d-flex mb-3 justify-content-between">
-                <div>
+                <div class="me-2 me-lg-0">
                     <h3 class="me-auto">Welcome,
                         <span sec:authentication="name"></span>
                     </h3>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <a class="btn btn-primary" th:href="@{/tickets/create}">Create ticket</a>
+                    <a class="btn btn-primary my-3 my-lg-0" th:href="@{/tickets/create}">Create ticket</a>
                     <a class="btn btn-primary" th:href="@{/categories/create}">Create Category</a>
                     <a class="btn btn-primary" th:href="@{/status/create}">Create Status</a>
                     <a class="btn btn-primary" th:href="@{/users/create}">Create User</a>
@@ -44,8 +44,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Title</th>
-                        <th>Status </th>
-                        <th>Category</th>
+                        <th class="d-none d-md-table-cell">Status </th>
+                        <th class="d-none d-md-table-cell">Category</th>
                         <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('USER')"></th>
                         <th sec:authorize="hasAuthority('USER')"></th>
@@ -57,8 +57,8 @@
                     <tr th:if="*{isAdmin}" th:each="ticket : ${tickets}" th:object="${ticket}">
                         <td th:text="*{id}" />
                         <td th:text="*{title}" />
-                        <td th:text="*{status}" />
-                        <td th:text="*{category}" />
+                        <td class="d-none d-md-table-cell" th:text="*{status}" />
+                        <td class="d-none d-md-table-cell" th:text="*{category}" />
                         <td sec:authorize="hasAuthority('ADMIN')">
                             <a role="button" class="btn btn-sm btn-primary"
                                 th:href="@{/tickets/{id}/note(id=*{id})}">Add note</a>
