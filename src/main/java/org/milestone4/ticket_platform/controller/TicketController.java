@@ -60,7 +60,7 @@ public class TicketController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("ticket", new Ticket());
-        model.addAttribute("user", userService.getCurrentUser());
+        model.addAttribute("userCurrent", userService.getCurrentUser());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("status", statusService.findAll());
         model.addAttribute("users", userService.isAvailableOperator(userService.findAll()));
