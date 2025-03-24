@@ -38,6 +38,8 @@
             </th:block>
         </section>
         <section>
+            <h3 sec:authorize="hasAuthority('ADMIN')" class="me-auto p-2">All ticket List</h3>
+            <h3 th:unless="*{isAdmin}" class="me-auto p-2">Tickets assigned</h3>
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
