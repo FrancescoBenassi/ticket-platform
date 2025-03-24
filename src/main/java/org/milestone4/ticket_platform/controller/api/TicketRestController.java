@@ -28,9 +28,9 @@ public class TicketRestController {
         return ticketService.findAll();
     }
 
-    @GetMapping("/category/{name}")
-     public List<Ticket> findTicketsByCategory(@PathVariable String nameCategory){
-         return ticketService.findByCategory(nameCategory);
+    @GetMapping("/category/{categoryId}")
+     public List<Ticket> findTicketsByCategory(@PathVariable Integer categoryId){
+         return ticketService.findByCategory(categoryId);
      }
  
      @GetMapping("/status/{statusId}")
