@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.milestone4.ticket_platform.model.Ticket;
 import org.milestone4.ticket_platform.model.User;
 import org.milestone4.ticket_platform.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,22 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User updateUserBeforeUpdate(Ticket ticket){
+        User user = ticket.getUser();
+        int a = 0;
+        for (Ticket ticketAttempt : user.getTickets()) {
+            if (!ticketAttempt.getStatus().getName().equals("Completato")) {
+                a++;
+            }
+        }
+        if(a >= 2){
+            user.setIsAvailable(false);
+        } else {
+            user.setIsAvailable(true);
+        }
+        return userRepository.save(user);
     }
 
     public User update(User user) {

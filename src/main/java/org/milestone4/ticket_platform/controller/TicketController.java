@@ -87,6 +87,7 @@ public class TicketController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Ticket ticket = ticketService.getById(id);
+        userService.updateUserBeforeUpdate(ticket);
         model.addAttribute("userCurrent", userService.getCurrentUser());
         if (userService.getCurrentUser().getIsAdmin()) {
             model.addAttribute("ticket", ticket);
