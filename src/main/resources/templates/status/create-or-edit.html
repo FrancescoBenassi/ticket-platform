@@ -11,7 +11,6 @@
 <body>
     <header th:insert="fragments/navbar :: navbar">
     </header>
-
     <main class="container">
         <section class="row justify-content-center">
             <div class="col-12">
@@ -21,8 +20,8 @@
                 <h1 th:unless="${create}">
                     Editing status "[[${status.name}]]":
                 </h1>
-                <form th:action="${create} ? @{/status/create} : @{|/status/edit/${status.id}|}"
-                    th:object="${status}" id="status-create-form" method="post">
+                <form th:action="${create} ? @{/status/create} : @{|/status/edit/${status.id}|}" th:object="${status}"
+                    id="status-create-form" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name: </label>
                         <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid"
@@ -40,8 +39,6 @@
 
         </section>
     </main>
-
-    <footer></footer>
 
 
     <!-- Js  -->

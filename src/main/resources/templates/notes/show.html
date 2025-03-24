@@ -11,7 +11,6 @@
 <body>
     <header th:insert="fragments/navbar :: navbar">
     </header>
-
     <main class="container">
         <div class="my-5 text-center" th:object="${note}">
             <h1 class="fw-bold col-lg-6 mx-auto" th:text="|Note name is '*{title}'|" />
@@ -26,8 +25,6 @@
             <a class="btn btn-warning" th:href="@{/tickets}">Back</a>
         </div>
     </main>
-
-    <footer></footer>
 
 
     <!-- Js  -->
