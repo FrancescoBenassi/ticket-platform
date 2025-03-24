@@ -3,7 +3,6 @@ package org.milestone4.ticket_platform.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.milestone4.ticket_platform.model.Category;
 import org.milestone4.ticket_platform.model.Note;
 import org.milestone4.ticket_platform.model.Ticket;
 import org.milestone4.ticket_platform.model.User;
@@ -24,9 +23,12 @@ public class TicketService {
         return ticketRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    public Optional<Ticket> findTicketByCategory(Category category) {
-        Optional<Ticket> tickets = ticketRepository.findTicketByCategory(category);
-        return tickets;
+    public List<Ticket> findByCategory(Integer categoryId){
+        return ticketRepository.findByCategoryId(categoryId);
+    }
+    
+    public List<Ticket> findByStatus(Integer statusId){
+        return ticketRepository.findByStatusId(statusId);
     }
 
     public List<Ticket> findAll() {
