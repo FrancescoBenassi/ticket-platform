@@ -65,7 +65,12 @@ public class StatusController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        if (statusService.checkNameCompletato(id)) {
+            redirectAttributes.addFlashAttribute("message", "The Status 'Completato' cannot be updated");
+            redirectAttributes.addFlashAttribute("alert", "alert-danger");
+            return "redirect:/status";
+        }
         model.addAttribute("status", statusService.getById(id));
         return "status/create-or-edit";
     }
@@ -86,9 +91,12 @@ public class StatusController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-
+        if (statusService.checkNameCompletato(id)) {
+            redirectAttributes.addFlashAttribute("message", "The Status 'Completato' cannot be deleted");
+            redirectAttributes.addFlashAttribute("alert", "alert-danger");
+            return "redirect:/status";
+        }
         Status status = statusService.getById(id);
-
         statusService.delete(status);
         redirectAttributes.addFlashAttribute("message", "A Status has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");

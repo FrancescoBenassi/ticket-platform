@@ -17,6 +17,14 @@ public class StatusService {
     return statusRepository.findAll();
   }
 
+  public Boolean checkNameCompletato(Integer id){
+    Optional<Status> status = statusRepository.findById(id);
+    if (status.get().getName().equals("Completato")) {
+      return true;
+    }
+    return false;
+  }
+
   public Status getById(Integer id) {
     Optional<Status> status = statusRepository.findById(id);
     if (status.isEmpty()) {
