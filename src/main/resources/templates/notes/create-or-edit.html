@@ -15,10 +15,10 @@
         <section class="row justify-content-center" th:object="${note}">
             <div class="col-12">
                 <h1 th:if="${create}">
-                    Create new note for [[*{ticket.title}]]:
+                    Create new note for '[[*{ticket.title}]]':
                 </h1>
                 <h1 th:unless="${create}">
-                    Editing note for [[*{ticket.title}]]:
+                    Editing note for '[[*{ticket.title}]]':
                 </h1>
                 <form th:action="${create} ? @{/notes/create} : @{|/notes/edit/${note.id}|}" id="ticket-create-form"
                     method="post">
