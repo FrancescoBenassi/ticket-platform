@@ -135,6 +135,14 @@ public class TicketController {
         Ticket ticket = ticketService.getById(id);
 
         ticketService.delete(ticket);
+        User user = ticket.getUser();
+        if (ticketService.ticketCompleted(user)) {
+            user.setIsAvailable(true);
+            userService.update(user);
+        } else {
+            user.setIsAvailable(false);
+            userService.update(user);
+        }
         redirectAttributes.addFlashAttribute("message", "A Ticket has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/tickets";
