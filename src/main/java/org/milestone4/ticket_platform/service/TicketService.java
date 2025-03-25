@@ -47,7 +47,7 @@ public class TicketService {
         return ticketRepository.findById(id);
     }
 
-    public Boolean ticketCompleted(User user) {
+    public Boolean isAllTicketsCompleted(User user) {
         for (Ticket ticket : user.getTickets()) {
             if (!ticket.getStatus().getName().equals("Completato")) {
                 return false;

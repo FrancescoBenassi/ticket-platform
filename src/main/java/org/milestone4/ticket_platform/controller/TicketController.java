@@ -117,7 +117,7 @@ public class TicketController {
         }
         ticketService.update(ticketForm);
         User user = ticketForm.getUser();
-        if (ticketService.ticketCompleted(user)) {
+        if (ticketService.isAllTicketsCompleted(user)) {
             user.setIsAvailable(true);
             userService.update(user);
         } else {
@@ -136,7 +136,7 @@ public class TicketController {
 
         ticketService.delete(ticket);
         User user = ticket.getUser();
-        if (ticketService.ticketCompleted(user)) {
+        if (ticketService.isAllTicketsCompleted(user)) {
             user.setIsAvailable(true);
             userService.update(user);
         } else {
