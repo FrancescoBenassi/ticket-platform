@@ -22,8 +22,17 @@
                         <div class="text-success">Admin</div>
                     </div>
                     <div th:unless="*{isAdmin}">
-                        <div class="text-success" th:if="*{isAvailable}">Available</div>
-                        <div class="text-danger" th:unless="*{isAvailable}">Not Available</div>
+                        <form th:if="*{isAvailable}" th:action="@{users/edit/status}" method="post">
+                            <input type="hidden" name="isAvailable" th:value="false">
+                            <button class="btn btn-sm btn-danger me-3" type="submit">Not Available</button>
+                        </form>
+                        <form th:unless="*{isAvailable}" th:action="@{users/edit/status}" method="post">
+                            <input type="hidden" name="isAvailable" th:value="true">
+                            <button class="btn btn-sm btn-success me-3" type="submit">Available</button>
+                        </form>
+
+                            <!-- <div class="text-success" th:if="*{isAvailable}">Available</div>
+                            <div class="text-danger" th:unless="*{isAvailable}">Not Available</div> -->
                     </div>
                 </div>
                 <div sec:authorize="hasAuthority('ADMIN')">
