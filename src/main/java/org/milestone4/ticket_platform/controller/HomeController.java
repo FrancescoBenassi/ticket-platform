@@ -24,6 +24,8 @@ public class HomeController {
             model.addAttribute("user", userService.getCurrentUser());
             if (userService.getCurrentUser().getIsAdmin()) {
                 model.addAttribute("tickets", ticketService.findAll());
+            } else {
+                model.addAttribute("tickets", userService.getCurrentUser().getTickets());
             }
         return "home/index";
     }

@@ -43,7 +43,7 @@
             <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
             </th:block>
         </section>
-        <section th:unless="*{tickets.size() == 0}">
+        <section th:unless="${tickets.size() == 0}">
             <h3 sec:authorize="hasAuthority('ADMIN')" class="me-auto p-2">All ticket List</h3>
             <h3 th:unless="*{isAdmin}" class="me-auto p-2">Tickets assigned</h3>
             <table class="table table-striped align-middle">
@@ -135,7 +135,7 @@
                 </tbody>
             </table>
         </section>
-        <section th:if="*{tickets.size() == 0}">
+        <section th:if="${tickets.size() == 0}">
             <h2>Not Tickets found</h2>
         </section>
     </main>
