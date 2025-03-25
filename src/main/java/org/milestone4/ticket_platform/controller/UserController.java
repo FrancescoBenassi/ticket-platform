@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping("/edit/status")
     public String postMethodName(@RequestParam("isAvailable") Boolean IsAvailable, Model model, RedirectAttributes redirectAttributes) {
         User userCurrent = userService.getCurrentUser();
-        if (ticketService.ticketCompleted(userCurrent) && userCurrent.getIsAdmin()) {
+        if (ticketService.ticketCompleted(userCurrent) && !userCurrent.getIsAdmin()) {
             userCurrent.setIsAvailable(IsAvailable);
             userService.update(userCurrent);
         } else {
